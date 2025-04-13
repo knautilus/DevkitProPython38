@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@main
 
       - name: Build packages
-        uses: heyhusen/archlinux-package-action@main
+        uses: knautilus/archlinux-package-action@main
         with:
           flags: '-si --noconfirm --skippgpcheck'
           namcap: false
