@@ -12,4 +12,4 @@ jobs:
         uses: actions/checkout@main
 
       - name: Validate package
-        uses: cilki/archlinux-package-action@main
+        uses: heyhusen/archlinux-package-action@main
