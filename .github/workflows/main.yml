@@ -11,12 +11,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
-      - name: Validate package
-        uses: heyhusen/archlinux-package-action@main
+      - name: Makepkg Build and Check
         id: makepkg
-        with:
-          flags: '-si --noconfirm --skippgpcheck'
-          namcap: false
+        uses: CachyOS/pkgbuild-action@master
+
+      - name: Print Package Files
+        run: |
+          echo "Successfully created the following package archive"
+          echo "Package: ${{ steps.makepkg.outputs.pkgfile0 }}"
 
       - name: upload artifacts
         uses: actions/upload-artifact@master
