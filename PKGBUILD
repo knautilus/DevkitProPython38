@@ -44,7 +44,6 @@ build() {
   cd "${srcdir}/Python-${pkgver}"
 
   CFLAGS=-DOPENSSL_NO_SSL2 ./configure --prefix=/usr \
-              --enable-shared \
               --with-threads \
               --with-computed-gotos \
               --enable-ipv6 \
