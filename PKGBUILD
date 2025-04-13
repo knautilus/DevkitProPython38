@@ -17,8 +17,10 @@ source=(
     https://www.python.org/ftp/python/${pkgver}/Python-${pkgver}.tar.xz
     https://www.python.org/ftp/python/${pkgver}/Python-${pkgver}.tar.xz.asc
     https://raw.githubusercontent.com/knautilus/DevkitProPython38/refs/heads/main/mpdecimal-2.5.1.patch
+    https://raw.githubusercontent.com/knautilus/DevkitProPython38/refs/heads/main/pyconfig.h
 )
 sha256sums=('6fb89a7124201c61125c0ab4cf7f6894df339a40c02833bfd28ab4d7691fafb4'
+            'SKIP'
             'SKIP'
             'SKIP')
 validpgpkeys=('E3FF2839C048B25C084DEBE9B26995E310250568')
@@ -63,6 +65,8 @@ package() {
   # Avoid conflicts with the main 'python' package.
   rm -f "${pkgdir}/usr/lib/libpython${_pymajver}.so"
   rm -f "${pkgdir}/usr/share/man/man1/python${_pymajver}.1"
+
+  cp "${srcdir}/pyconfig.h" "${pkgdir}/usr/include/python${_pybasever}/pyconfig.h"
 
   # Clean-up reference to build directory
   sed -i "s|$srcdir/Python-${pkgver}:||" "$pkgdir/usr/lib/python${_pybasever}/config-${_pybasever}-${CARCH}-linux-gnu/Makefile"
