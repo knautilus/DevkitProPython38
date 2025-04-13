@@ -13,6 +13,7 @@ jobs:
 
       - name: Validate package
         uses: heyhusen/archlinux-package-action@main
+        id: makepkg
         with:
           flags: '-si --noconfirm --skippgpcheck'
           namcap: false
@@ -21,4 +22,4 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: python27-switch
-          path: ${{ github.workspace }}
+          path: ${{ steps.makepkg.outputs.pkgfile0 }}
