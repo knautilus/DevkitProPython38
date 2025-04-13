@@ -26,7 +26,7 @@ validpgpkeys=('E3FF2839C048B25C084DEBE9B26995E310250568')
 prepare() {
   cd "${srcdir}/Python-${pkgver}"
 
-  patch -p1 -i "../mpdecimal-2.5.1.patch"
+  patch -p1 -i "${srcdir}/mpdecimal-2.5.1.patch"
 
   # FS#23997
   sed -i -e "s|^#.* /usr/local/bin/python|#!/usr/bin/python|" Lib/cgi.py
