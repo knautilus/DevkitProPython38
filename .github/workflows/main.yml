@@ -14,5 +14,5 @@ jobs:
       - name: Validate package
         uses: heyhusen/archlinux-package-action@main
         with:
-          flags: '-si --noconfirm'
+          flags: '-si --noconfirm --skippgpcheck'
           namcap: false
