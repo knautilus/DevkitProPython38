@@ -14,6 +14,8 @@ jobs:
       - name: Makepkg Build and Check
         id: makepkg
         uses: CachyOS/pkgbuild-action@master
+        with:
+          makepkgArgs: '-si --noconfirm --skippgpcheck'
 
       - name: Print Package Files
         run: |
