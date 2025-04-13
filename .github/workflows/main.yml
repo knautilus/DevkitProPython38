@@ -13,9 +13,9 @@ jobs:
 
       - name: Makepkg Build and Check
         id: makepkg
-        uses: CachyOS/pkgbuild-action@master
+        uses: knautilus/archlinux-package-action@main
         with:
-          makepkgArgs: '-si --noconfirm --skippgpcheck'
+          flags: '--skippgpcheck'
 
       - name: Print Package Files
         run: |
@@ -25,5 +25,5 @@ jobs:
       - name: upload artifacts
         uses: actions/upload-artifact@master
         with:
-          name: python27-switch
+          name: python38-switch
           path: ${{ steps.makepkg.outputs.pkgfile0 }}
