@@ -15,7 +15,7 @@ jobs:
         id: makepkg
         uses: knautilus/archlinux-package-action@main
         with:
-          flags: '--skippgpcheck'
+          flags: '-si --noconfirm --skippgpcheck'
 
       - name: Print Package Files
         run: |
