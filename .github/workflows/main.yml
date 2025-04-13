@@ -11,19 +11,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
-      - name: Makepkg Build and Check
-        id: makepkg
-        uses: knautilus/archlinux-package-action@main
+      - name: Build packages
+        uses: heyhusen/archlinux-package-action@main
         with:
           flags: '-si --noconfirm --skippgpcheck'
+          namcap: false
 
-      - name: Print Package Files
-        run: |
-          echo "Successfully created the following package archive"
-          echo "Package: ${{ steps.makepkg.outputs.pkgfile0 }}"
-
-      - name: upload artifacts
+      - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
           name: python38-switch
-          path: ${{ steps.makepkg.outputs.pkgfile0 }}
+          path: ${{ github.workspace }}
