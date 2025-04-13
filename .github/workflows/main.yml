@@ -13,6 +13,3 @@ jobs:
 
       - name: Validate package
         uses: heyhusen/archlinux-package-action@main
-        with:
-          context: .
-          file: ./mpdecimal-2.5.1.patch
