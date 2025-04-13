@@ -21,4 +21,4 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: python27-switch
-          path: ./
+          path: ${{ github.workspace }}
