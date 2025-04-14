@@ -52,6 +52,7 @@ build() {
               --with-system-libmpdec \
               --enable-loadable-sqlite-extensions \
               --without-ensurepip
+              -g -gdwarf-5
 
   make
 }
