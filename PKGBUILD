@@ -43,16 +43,15 @@ prepare() {
 build() {
   cd "${srcdir}/Python-${pkgver}"
 
-  CFLAGS=-DOPENSSL_NO_SSL2 ./configure --prefix=/usr \
-              --with-threads \
-              --with-computed-gotos \
-              --enable-ipv6 \
-              --with-system-expat \
-              --with-dbmliborder=gdbm:ndbm \
-              --with-system-libmpdec \
-              --enable-loadable-sqlite-extensions \
-              --without-ensurepip \
-              -g -gdwarf-5
+  CFLAGS=-g -gdwarf-5 -DOPENSSL_NO_SSL2 ./configure --prefix=/usr \
+              #--with-threads \
+              #--with-computed-gotos \
+              #--enable-ipv6 \
+              #--with-system-expat \
+              #--with-dbmliborder=gdbm:ndbm \
+              #--with-system-libmpdec \
+              #--enable-loadable-sqlite-extensions \
+              --without-ensurepip
 
   make
 }
