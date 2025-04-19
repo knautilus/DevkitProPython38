@@ -21,4 +21,4 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: python38-switch
-          path: ${{ github.workspace }}/python38/usr
+          path: ${{ github.workspace }}
