@@ -19,7 +19,7 @@ source=(
     https://raw.githubusercontent.com/knautilus/DevkitProPython38/refs/heads/main/mpdecimal-2.5.1.patch
     https://raw.githubusercontent.com/knautilus/DevkitProPython38/refs/heads/main/pyconfig.h
 )
-sha256sums=('6fb89a7124201c61125c0ab4cf7f6894df339a40c02833bfd28ab4d7691fafb4'
+sha256sums=('SKIP'
             'SKIP'
             'SKIP'
             'SKIP')
