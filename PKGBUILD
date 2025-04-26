@@ -2,7 +2,7 @@
 # Maintained at https://github.com/rixx/pkgbuilds, feel free to submit patches
 
 pkgname=python39
-pkgver=3.9.22
+pkgver=3.9.2
 pkgrel=1
 _pybasever=3.9
 _pymajver=3
@@ -44,8 +44,7 @@ build() {
   cd "${srcdir}/Python-${pkgver}"
 
   CFLAGS=-DOPENSSL_NO_SSL2 ./configure --prefix=/usr \
-              --without-ensurepip \
-              --disable-shared
+              --without-ensurepip
               #--with-threads \
               #--with-computed-gotos \
               #--enable-ipv6 \
