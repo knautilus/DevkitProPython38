@@ -1,12 +1,12 @@
 # Maintainer: Tobias Kunze <r@rixx.de>
 # Maintained at https://github.com/rixx/pkgbuilds, feel free to submit patches
 
-pkgname=python38
-pkgver=3.8.20
+pkgname=python39
+pkgver=3.9.22
 pkgrel=1
-_pybasever=3.8
+_pybasever=3.9
 _pymajver=3
-pkgdesc="Major release 3.8 of the Python high-level programming language"
+pkgdesc="Major release 3.9 of the Python high-level programming language"
 arch=('i686' 'x86_64')
 license=('PSF-2.0')
 url="https://www.python.org/"
