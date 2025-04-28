@@ -1,80 +1,55 @@
-# Maintainer: Tobias Kunze <r@rixx.de>
-# Maintained at https://github.com/rixx/pkgbuilds, feel free to submit patches
-
-pkgname=python39
+pkgname=switch-libpython
 pkgver=3.9.2
 pkgrel=1
-_pybasever=3.9
-_pymajver=3
-pkgdesc="Major release 3.9 of the Python high-level programming language"
-arch=('i686' 'x86_64')
-license=('PSF-2.0')
+pkgdesc="The Python programming language (Nintendo Switch port)"
+arch=('any')
 url="https://www.python.org/"
-depends=('expat' 'bzip2' 'gdbm' 'openssl' 'libffi' 'zlib')
-makedepends=('tk' 'sqlite' 'bluez-libs' 'mpdecimal')
-optdepends=('tk: for tkinter' 'sqlite')
-source=(
-    https://www.python.org/ftp/python/${pkgver}/Python-${pkgver}.tar.xz
-    https://www.python.org/ftp/python/${pkgver}/Python-${pkgver}.tar.xz.asc
-    https://raw.githubusercontent.com/knautilus/DevkitProPython38/refs/heads/main/mpdecimal-2.5.1.patch
-    https://raw.githubusercontent.com/knautilus/DevkitProPython38/refs/heads/main/pyconfig.h
-)
-sha256sums=('SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP')
-validpgpkeys=('E3FF2839C048B25C084DEBE9B26995E310250568')
-
-prepare() {
-  cd "${srcdir}/Python-${pkgver}"
-
-  patch -p1 -i "${srcdir}/mpdecimal-2.5.1.patch"
-
-  # FS#23997
-  sed -i -e "s|^#.* /usr/local/bin/python|#!/usr/bin/python|" Lib/cgi.py
-
-  # Ensure that we are using the system copy of various libraries (expat, zlib and libffi),
-  # rather than copies shipped in the tarball
-  rm -rf Modules/expat
-  rm -rf Modules/_ctypes/{darwin,libffi}*
-  rm -rf Modules/_decimal/libmpdec
-}
+license=("custom")
+options=(!strip libtool staticlibs)
+makedepends=('switch-pkg-config' 'devkitpro-pkgbuild-helpers')
+depends=('libnx')
+source=("git+https://github.com/DavidBuchanan314/cpython.git")
+md5sums=('SKIP')
+groups=('switch-portlibs')
 
 build() {
-  cd "${srcdir}/Python-${pkgver}"
+  cd cpython
 
-  CFLAGS=-DOPENSSL_NO_SSL2 ./configure --prefix=/usr \
-              --without-ensurepip
-              #--with-threads \
-              #--with-computed-gotos \
-              #--enable-ipv6 \
-              #--with-system-expat \
-              #--with-dbmliborder=gdbm:ndbm \
-              #--with-system-libmpdec \
-              #--enable-loadable-sqlite-extensions \
+  cp ../../Setup Modules/Setup
+
+  source /opt/devkitpro/switchvars.sh
+
+  ./configure \
+    LDFLAGS="-specs=$DEVKITPRO/libnx/switch.specs $LDFLAGS" \
+    CONFIG_SITE="../../config.site" \
+    --host=aarch64-none-elf \
+    --build=$(./config.guess) \
+    --prefix="$PORTLIBS_PREFIX" \
+    --disable-ipv6 \
+    --disable-shared
+
+  # configure gets a few things wrong due to misleading newlib headers
+  # I can't see any other way to override it...
+  for func in SETGROUPS FCHDIR FDATASYNC SYMLINK CHROOT
+  do
+    sed -i "s/#define HAVE_$func 1/\/* #undef HAVE_$func *\//" pyconfig.h
+  done
 
   make
 }
 
 package() {
-  cd "${srcdir}/Python-${pkgver}"
-  # altinstall: /usr/bin/pythonX.Y but not /usr/bin/python or /usr/bin/pythonX
-  make DESTDIR="${pkgdir}" altinstall maninstall
+  cd cpython
 
-  # Avoid conflicts with the main 'python' package.
-  rm -f "${pkgdir}/usr/lib/libpython${_pymajver}.so"
-  rm -f "${pkgdir}/usr/share/man/man1/python${_pymajver}.1"
+  source /opt/devkitpro/switchvars.sh
 
-  cp "${srcdir}/pyconfig.h" "${pkgdir}/usr/include/python${_pybasever}/pyconfig.h"
+  # for some reason libainstall will fail unless we also do altbininstall
+  make DESTDIR="$pkgdir" altbininstall libinstall inclinstall libainstall
 
-  # Clean-up reference to build directory
-  sed -i "s|$srcdir/Python-${pkgver}:||" "$pkgdir/usr/lib/python${_pybasever}/config-${_pybasever}-${CARCH}-linux-gnu/Makefile"
+  # remove the python binaries (we only care about libpython)
+  rm -r $pkgdir$PORTLIBS_PREFIX/bin
 
-  # Add useful scripts FS#46146
-  install -dm755 "${pkgdir}"/usr/lib/python${_pybasever}/Tools/{i18n,scripts}
-  install -m755 Tools/i18n/{msgfmt,pygettext}.py "${pkgdir}"/usr/lib/python${_pybasever}/Tools/i18n/
-  install -m755 Tools/scripts/{README,*py} "${pkgdir}"/usr/lib/python${_pybasever}/Tools/scripts/
-
-  # License
-  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  # remove the test module (it's big)
+  rm -r $pkgdir$PORTLIBS_PREFIX/lib/python*/test
 }
+
