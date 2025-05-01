@@ -6,9 +6,9 @@ arch=('any')
 url="https://www.python.org/"
 license=("custom")
 options=(!strip libtool staticlibs)
-makedepends=('switch-pkg-config' 'devkitpro-pkgbuild-helpers')
+makedepends=('switch-pkg-config' 'dkp-toolchain-vars')
 depends=('libnx')
-source=("git+https://github.com/DavidBuchanan314/cpython.git")
+source=("git+https://github.com/python/cpython.git#tag=v3.9.2")
 md5sums=('SKIP')
 groups=('switch-portlibs')
 
