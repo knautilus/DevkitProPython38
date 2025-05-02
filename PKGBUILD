@@ -1,14 +1,14 @@
 pkgname=switch-libpython
-pkgver=3.9.2
+pkgver=3.8.0
 pkgrel=1
 pkgdesc="The Python programming language (Nintendo Switch port)"
 arch=('any')
 url="https://www.python.org/"
 license=("custom")
 options=(!strip libtool staticlibs)
-makedepends=('switch-pkg-config' 'dkp-toolchain-vars')
+makedepends=('switch-pkg-config' 'devkitpro-pkgbuild-helpers')
 depends=('libnx')
-source=("git+https://github.com/python/cpython.git#tag=v3.9.2")
+source=("git+https://github.com/DavidBuchanan314/cpython")
 md5sums=('SKIP')
 groups=('switch-portlibs')
 
